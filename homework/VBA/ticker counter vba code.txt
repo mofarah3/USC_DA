@@ -1,0 +1,67 @@
+' Ticker Counter
+
+Sub Ticker_Counter()
+
+Dim Ticker As Integer
+Dim tVol As Double
+Dim YearStart As Integer
+Dim YearEnd As Integer
+Dim counter As Integer
+
+For Each ws In Worksheets
+
+
+tVol = 0
+' Determine Last Row
+  lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+' Determine the Last Column Number
+
+ LastColumn = ws.Cells(1, Columns.Count).End(xlToLeft).Column
+ counter = 2
+
+'Set row start for summary data
+
+'Ticker Column Location
+tcl = LastColumn + 2
+
+'Volume Column Location
+
+VTL = LastColumn + 3
+
+ws.Cells(1, tcl).Value = "Ticker"
+ws.Cells(1, VTL).Value = "Volume"
+
+For i = 2 To lastRow
+
+
+If ws.Cells(i + 1, 1).Value = ws.Cells(i, 1).Value Then
+
+   tVol = ws.Cells(i, 7).Value + tVol
+
+End If
+ 
+If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+
+   tVol = ws.Cells(i, 7).Value + tVol
+   
+   'prints Ticker ID
+   ws.Cells(counter, tcl).Value = ws.Cells(i, 1).Value
+   
+   'Prints ticker volume
+   ws.Cells(counter, VTL).Value = tVol
+   counter = counter + 1
+   tVol = 0
+
+End If
+
+Next i
+
+
+
+Next ws
+
+   
+
+End Sub
+
